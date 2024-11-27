@@ -2,14 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:g4/commons/components/appBar.component.dart';
+import 'package:g4/commons/components/button.component.dart';
+import 'package:g4/commons/theming/textExtension.theme.dart';
 import 'package:g4/constants.dart';
 import 'package:g4/features/splashScreen/data/splash.repo.dart';
 import 'package:g4/features/splashScreen/ui/components/animated_disk.component.dart';
-import 'package:g4/features/splashScreen/ui/components/appBar.component.dart';
 import 'package:g4/features/splashScreen/ui/controllers/splashAnimation.controller.dart';
 import 'package:g4/features/splashScreen/ui/controllers/splashButton.controller.dart';
 import 'package:g4/features/splashScreen/ui/controllers/splashText.controller.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Splash1 extends ConsumerStatefulWidget {
   const Splash1({super.key});
@@ -30,7 +31,24 @@ class _Splash1State extends ConsumerState<Splash1> {
     const pagePadding = 32.0;
 
     return Scaffold(
-      appBar: SplashAppBar(padding: pagePadding),
+      appBar: SystemAppBar(
+        padding: pagePadding,
+        actions: [
+          TextButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.grey[700],
+            ),
+            onPressed: ref.read(splashRepoProvider.notifier).skip,
+            child: Text(
+              "skip",
+              style: context.label3,
+            ),
+          ),
+          SizedBox(
+            width: pagePadding - 18,
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: pagePadding),
         child: Column(
@@ -63,47 +81,21 @@ class _Splash1State extends ConsumerState<Splash1> {
             // ##############################
             Text(
               ref.watch(splashTextControllerProvider).title,
-              style: GoogleFonts.outfit(
-                fontSize: 40,
-                fontWeight: FontWeight.w600,
-                height: 1.2,
-              ),
+              style: context.h1,
             ),
             SizedBox(height: 12),
             Text(
               ref.watch(splashTextControllerProvider).sub,
-              style: GoogleFonts.outfit(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-              ),
+              style: context.body1,
             ),
             SizedBox(height: 32),
 
             // ##############################
             // BUTTON SECTION
             // ##############################
-            ElevatedButton(
-              onPressed: () {
-                ref.read(splashBtnFnProvider(context)).onPressed();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.nature,
-                foregroundColor: AppColors.offWhite,
-                elevation: 0,
-                padding: EdgeInsets.symmetric(
-                  vertical: 16,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: Text(
-                ref.read(splashBtnTextProvider).currentText,
-                style: GoogleFonts.outfit(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+            SystemButton(
+              onPressed: ref.read(splashBtnFnProvider(context)).onPressed,
+              text: ref.read(splashBtnTextProvider).currentText,
             ),
             SizedBox(height: 32),
 
@@ -128,7 +120,7 @@ class _Splash1State extends ConsumerState<Splash1> {
                   ),
               ],
             ),
-            SizedBox(height: 92),
+            SizedBox(height: 62),
           ],
         ),
       ),

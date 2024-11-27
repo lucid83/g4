@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:g4/commons/theming/global.theme.dart';
 import 'package:g4/router.dart';
 
 void main() {
@@ -14,6 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Gatekeeper',
       routerConfig: router,
+      themeMode: ThemeMode.light, //or ThemeMode.dark
+      theme: GlobalThemData.lightThemeData,
+      darkTheme: GlobalThemData.darkThemeData,
     );
   }
 }
