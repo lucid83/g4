@@ -6,8 +6,9 @@ import 'package:g4/constants.dart';
 import 'package:g4/features/splashScreen/data/splash.repo.dart';
 import 'package:g4/features/splashScreen/ui/components/animated_disk.component.dart';
 import 'package:g4/features/splashScreen/ui/components/appBar.component.dart';
-import 'package:g4/features/splashScreen/ui/splash.state.dart';
-import "package:go_router/go_router.dart";
+import 'package:g4/features/splashScreen/ui/controllers/splashAnimation.controller.dart';
+import 'package:g4/features/splashScreen/ui/controllers/splashButton.controller.dart';
+import 'package:g4/features/splashScreen/ui/controllers/splashText.controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Splash1 extends ConsumerStatefulWidget {
@@ -23,7 +24,6 @@ class _Splash1State extends ConsumerState<Splash1> {
   @override
   Widget build(BuildContext context) {
     final currentScreen = ref.watch(splashRepoProvider);
-    final goToNext = ref.read(splashRepoProvider.notifier).nextScreen;
     final totalScreens =
         ref.watch(splashRepoProvider.notifier).finalScreenIndex;
 
@@ -47,20 +47,14 @@ class _Splash1State extends ConsumerState<Splash1> {
               child: Stack(
                 fit: StackFit.loose,
                 clipBehavior: Clip.none,
-                children: [
-                  for (int i = 0;
-                      i <
-                          attr[currentScreen >= attr.length
-                                  ? attr.length - 1
-                                  : currentScreen]
-                              .length;
-                      i++)
-                    AnimatedDisk(
-                      attrs: attr[currentScreen >= attr.length
-                          ? attr.length - 1
-                          : currentScreen][i],
-                    ),
-                ],
+                children: ref
+                    .watch(splashAnimationControllerProvider)
+                    .animationStates
+                    .map((atr) {
+                  return AnimatedDisk(
+                    attrs: atr,
+                  );
+                }).toList(),
               ),
             ),
 
@@ -68,10 +62,7 @@ class _Splash1State extends ConsumerState<Splash1> {
             // TEXT SECTION
             // ##############################
             Text(
-              captions[currentScreen >= captions.length
-                      ? captions.length - 1
-                      : currentScreen]["title"] ??
-                  "",
+              ref.watch(splashTextControllerProvider).title,
               style: GoogleFonts.outfit(
                 fontSize: 40,
                 fontWeight: FontWeight.w600,
@@ -80,10 +71,7 @@ class _Splash1State extends ConsumerState<Splash1> {
             ),
             SizedBox(height: 12),
             Text(
-              captions[currentScreen >= captions.length
-                      ? captions.length - 1
-                      : currentScreen]["sub"] ??
-                  "",
+              ref.watch(splashTextControllerProvider).sub,
               style: GoogleFonts.outfit(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -96,10 +84,7 @@ class _Splash1State extends ConsumerState<Splash1> {
             // ##############################
             ElevatedButton(
               onPressed: () {
-                if (currentScreen != totalScreens) {
-                  goToNext();
-                }
-                context.go("/signup");
+                ref.read(splashBtnFnProvider(context)).onPressed();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.nature,
@@ -113,7 +98,7 @@ class _Splash1State extends ConsumerState<Splash1> {
                 ),
               ),
               child: Text(
-                currentScreen == totalScreens ? "Sign up" : "Continue",
+                ref.read(splashBtnTextProvider).currentText,
                 style: GoogleFonts.outfit(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,

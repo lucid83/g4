@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SplashRepository extends Notifier<int> {
-  final int finalScreenIndex = 3;
-
   @override
   int build() {
     return 0;
   }
+
+  int get finalScreenIndex => 3;
 
   nextScreen() {
     if (state < finalScreenIndex) {
