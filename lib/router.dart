@@ -7,12 +7,12 @@ import 'package:go_router/go_router.dart';
 final router = GoRouter(
   routes: [
     GoRoute(
-      path: '/splash',
+      path: '/',
       name: "splash",
       builder: (context, state) => const Splash1(),
     ),
     GoRoute(
-      path: '/',
+      path: '/register',
       name: "register",
       builder: (context, state) => const RegisterScreen(),
     ),
