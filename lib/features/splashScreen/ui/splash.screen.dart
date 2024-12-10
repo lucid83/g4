@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:g4/commons/components/appBar.component.dart';
 import 'package:g4/commons/components/button.component.dart';
-import 'package:g4/commons/theming/textExtension.theme.dart';
+import 'package:g4/commons/theming/extension.theme.dart';
 import 'package:g4/constants.dart';
 import 'package:g4/features/splashScreen/data/splash.repo.dart';
 import 'package:g4/features/splashScreen/ui/components/animated_disk.component.dart';
@@ -41,7 +41,7 @@ class _Splash1State extends ConsumerState<Splash1> {
             onPressed: ref.read(splashRepoProvider.notifier).skip,
             child: Text(
               "skip",
-              style: context.label3,
+              style: context.theme.label3,
             ),
           ),
           SizedBox(
@@ -81,12 +81,12 @@ class _Splash1State extends ConsumerState<Splash1> {
             // ##############################
             Text(
               ref.watch(splashTextControllerProvider).title,
-              style: context.h1,
+              style: context.theme.h1,
             ),
             SizedBox(height: 12),
             Text(
               ref.watch(splashTextControllerProvider).sub,
-              style: context.body1,
+              style: context.theme.body1,
             ),
             SizedBox(height: 32),
 

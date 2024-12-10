@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:g4/commons/theming/textExtension.theme.dart';
+import 'package:g4/commons/theming/extension.theme.dart';
 import 'package:g4/features/splashScreen/data/splash.repo.dart';
 
 class SystemAppBar extends ConsumerWidget implements PreferredSizeWidget {
@@ -25,8 +25,8 @@ class SystemAppBar extends ConsumerWidget implements PreferredSizeWidget {
               width: 8,
             ),
             Text(
-              "Gatekeeper23",
-              style: context.h3,
+              "Gatekeepr",
+              style: context.theme.h3,
             ),
           ],
         ),
